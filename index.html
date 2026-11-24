@@ -145,6 +145,7 @@ input[type=range]:disabled { cursor: not-allowed; accent-color: var(--color-rule
 .mdefs > div { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-sm); }
 .mdefs dt { color: var(--color-ink); font-weight: 500; }
 .mdefs dd { margin: 0; color: var(--color-muted); }
+.mdefs abbr { text-decoration: none; }
 .abstract { margin-top: 0; border-top: var(--rule-hair) solid var(--color-rule); }
 .abstract .in { padding-bottom: var(--space-lg); }
 .abstract .in p + p { margin-top: var(--space-md); }
@@ -721,7 +722,7 @@ abbr { text-decoration: none; }
       </div>
       <div class="plot"></div>
       <dl class="mdefs">
-        <div><dt>ADD-AUC</dt><dd>Object-vertex accuracy integrated over thresholds from 1 to 9&nbsp;cm.</dd></div>
+        <div><dt><abbr>ADD-AUC</abbr></dt><dd>Object-vertex accuracy integrated over thresholds from 1 to 9&nbsp;cm.</dd></div>
         <div><dt>SP-SR</dt><dd>Success rate under the object criteria of SPIDER: a mean object error within 10&nbsp;cm and 0.5&nbsp;rad.</dd></div>
         <div><dt>MP-SR</dt><dd>Success rate under the object criteria of ManipTrans: an object error within 3&nbsp;cm and 30&deg;.</dd></div>
       </dl>
