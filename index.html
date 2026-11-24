@@ -141,8 +141,14 @@ input[type=range]:disabled { cursor: not-allowed; accent-color: var(--color-rule
    border-top: var(--rule-hair) solid var(--color-rule); padding-top: var(--space-md); min-width: 0; }
 .figs dd { margin: 0; font-weight: var(--display-weight); font-stretch: var(--display-stretch); font-size: var(--text-display-s); letter-spacing: -0.03em; line-height: 0.95; }
 .figs dt { color: var(--color-muted); font-size: var(--text-sm); font-weight: 500; }
-.abstract { margin-top: 0; }
+.mdefs { display: grid; gap: var(--space-2xs); margin: var(--space-md) 0 0; font-size: var(--text-sm); line-height: 1.45; }
+.mdefs > div { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-sm); }
+.mdefs dt { color: var(--color-ink); font-weight: 500; }
+.mdefs dd { margin: 0; color: var(--color-muted); }
+.abstract { margin-top: 0; border-top: var(--rule-hair) solid var(--color-rule); }
+.abstract .in { padding-bottom: var(--space-lg); }
 .abstract .in p + p { margin-top: var(--space-md); }
+.abstract .abs-h { display: flex; align-items: center; min-height: 48px; color: var(--color-muted); font-size: var(--text-sm); font-weight: 500; }   
 
 
 .bar { position: sticky; top: 0; z-index: var(--z-sticky-nav); background: var(--color-paper); border-bottom: var(--rule-hair) solid var(--color-rule); }
@@ -506,11 +512,11 @@ abbr { text-decoration: none; }
         <p class="affil"><sup>1</sup><abbr title="Pohang University of Science and Technology">POSTECH</abbr>&ensp;&ensp;<sup>2</sup>RLWRLD</p>
       </div>
       <div class="actions"><button class="btn btn--primary" type="button" disabled>Paper</button><button class="btn" type="button" disabled>Code</button><button class="btn" type="button" disabled>Data</button><span class="after">Links coming soon.</span></div>
-      <details class="abstract" id="overview"><summary>Abstract</summary><div class="in">
+      <div class="abstract" id="overview"><p class="abs-h">Abstract</p><div class="in">
       <p>Many recent works retarget human hand-object demonstrations to robot hands. To train whole-robot policies, however, the retargeted motions must be kinematically feasible and physically executable, and be produced efficiently at scale.</p>
       <p>We present DexEngine, a simulation pipeline that turns human manipulation data into train-ready, physically executable arm-hand trajectories. DexEngine first places each clip’s hand-object motion where the arms can reach it, finds an arm motion that follows the human hands, and then corrects the motion in physics simulation with residual reinforcement learning.</p>
       <p>From nine human hand-object datasets, we generate about 5,200 clips for each of four dexterous hands, augmented into 65,000 trajectories (116 h) and 325,000 episodes (578 h) in total. Even with arms attached, DexEngine tracks objects more accurately than prior floating-hand methods and runs over 10× faster than RL-based ones. Policies trained on our data far outperform those trained on the same clips without physics correction or with the arms attached after a floating-hand correction, showing that fine-tuning data need physics correction. Mid-training on our data further improves them at equal fine-tuning budget, in simulation and on a real robot.</p>
-    </div></details>
+    </div></div>
     </div>
     <dl class="figs">
       <div><dt>robot hands that share the same source clips</dt><dd>4</dd></div>
@@ -714,6 +720,11 @@ abbr { text-decoration: none; }
         <span class="lg lg-float">floating hand</span><span class="lg lg-arm">arm-mounted hand</span>
       </div>
       <div class="plot"></div>
+      <dl class="mdefs">
+        <div><dt>ADD-AUC</dt><dd>Object-vertex accuracy integrated over thresholds from 1 to 9&nbsp;cm.</dd></div>
+        <div><dt>SP-SR</dt><dd>Success rate under the object criteria of SPIDER: a mean object error within 10&nbsp;cm and 0.5&nbsp;rad.</dd></div>
+        <div><dt>MP-SR</dt><dd>Success rate under the object criteria of ManipTrans: an object error within 3&nbsp;cm and 30&deg;.</dd></div>
+      </dl>
     </div>
   </div>
   <details><summary>Table 2: pipelines on the same 64 TACO clips, and the pipeline ablations</summary><div class="in tw">
@@ -887,8 +898,7 @@ abbr { text-decoration: none; }
   {"k": "ego_right", "label": "Ego right", "v": "assets/streams/ego_right.mp4", "p": "assets/streams/ego_right.jpg"},
   {"k": "depth",     "label": "Ego depth", "v": "assets/streams/depth.mp4",     "p": "assets/streams/depth.jpg"},
   {"k": "exo",       "label": "Exocentric","v": "assets/streams/exo.mp4",       "p": "assets/streams/exo.jpg"},
-  {"k": "contact",   "label": "Contact view", "v": "assets/streams/contact.mp4", "p": "assets/streams/contact.jpg"},
-  {"k": "orbit",     "label": "Scene orbit", "v": "assets/streams/orbit.mp4",    "p": "assets/streams/orbit.jpg"}
+  {"k": "contact",   "label": "Contact",   "v": "assets/streams/contact.mp4", "p": "assets/streams/contact.jpg"}
  ],
  "cmp": {
   "pnp":   {"mm": 13, "pen": 131, "c3d": {"json": "assets/3d/cmp_alarm131.json", "bin": "assets/3d/cmp_alarm131.bin"},
