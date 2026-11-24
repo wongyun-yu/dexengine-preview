@@ -404,6 +404,7 @@ figure { margin: 0; }
 table { border-collapse: collapse; width: 100%; font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 th, td { padding: var(--space-xs) var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-rule); text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; white-space: normal; padding-left: 0; }
+.scale-t td { white-space: normal; }
 th { color: var(--color-muted); font-weight: 500; }
 tr.grp td { color: var(--color-muted); text-align: left; padding-top: var(--space-md); }
 tr.us td { color: var(--color-ink); font-weight: 500; }
@@ -602,19 +603,22 @@ abbr { text-decoration: none; }
 
 <section class="sec" id="data"><div class="container">
   <div class="cols head"><h2 data-imp="ref">Dataset</h2><p class="lead">The four hands have about 5,200 clips each and 325,000 episodes in all.</p></div>
-  <div class="cols"><div class="c-l6"><h3>Four hands</h3><p class="note">Clip division uses only the human poses, so that all four robot hands share the same source clips.</p></div></div>
-  <div class="widget v3d gap-top" id="hands">
-    <div class="row">
-      <button class="chip" data-k="wuji2" type="button">Wuji 2</button>
-      <button class="chip" data-k="sharpa" type="button">SharpA</button>
-      <button class="chip" data-k="xhand" type="button">XHand Pro</button>
-      <button class="chip" data-k="tesollo" type="button">Tesollo</button>
-      <button class="chip on" data-k="all" type="button">All four</button>
-    </div>
-    <div class="stage3d q4" data-still-d="assets/3d/still_hands_d.jpg" data-still-m="assets/3d/still_hands_m.jpg"><span class="ovl qlab" data-i="0">Wuji 2</span><span class="ovl qlab" data-i="1">SharpA</span><span class="ovl qlab" data-i="2">XHand Pro</span><span class="ovl qlab" data-i="3">Tesollo</span></div>
-    <div class="ctrl"><button class="pbtn" type="button">Pause</button><input type="range" min="0" max="259" value="0" aria-label="Frame"><button class="chip vfront" type="button">Front view</button><button class="chip vego" type="button">Ego view</button></div>
-    <p class="cap">The HO-Cap clip has the instruction “Pick up the hammer and pass it to the other hand.”</p>
-  </div>
+  <div class="cols"><div class="c-l4"><h3>Dataset scale</h3></div>
+  <div class="c-r7 tw">
+    <table class="scale-t"><tbody>
+    <tr><td>Clips</td><td>20,768 (5,048 to 5,361 per hand), 37 h</td></tr>
+    <tr><td>Trajectories</td><td>× ≈3 placements, ≈65,000, 116 h</td></tr>
+    <tr><td>Episodes</td><td>× 5 appearances, ≈325,000, 578 h</td></tr>
+    <tr><td>Ego RGB-D</td><td>stereo 1280×720 + left depth, 30 Hz</td></tr>
+    <tr><td>Exo RGB</td><td>1920×1920, 30 Hz</td></tr>
+    <tr><td>Joint states</td><td>head, arms, hands, 50 Hz</td></tr>
+    <tr><td>Actions</td><td>absolute joint PD targets, 50 Hz</td></tr>
+    <tr><td>Privileged</td><td>object poses, per-link contact forces, 50 Hz</td></tr>
+    <tr><td>Language</td><td>instruction and phase sub-instructions per clip</td></tr>
+    <tr><td>Length</td><td>5.7 s human, 6.3 s robot (mean)</td></tr>
+    <tr><td>Format</td><td>LeRobot v2.1</td></tr>
+    </tbody></table>
+  </div></div>
 
   <div class="block">
     <div class="cols"><div class="c-l4"><h3>Clips kept at each step</h3><p class="note">Apart from capture defects, most lost clips have no placement that the arms can follow from a fixed torso and base.</p></div>
@@ -630,6 +634,22 @@ abbr { text-decoration: none; }
       <div class="fun-legend"></div>
       <p class="fun-total"></p>
     </div></div>
+  </div>
+
+  <div class="block">
+    <div class="cols"><div class="c-l6"><h3>Four hands</h3><p class="note">Clip division uses only the human poses, so that all four robot hands share the same source clips.</p></div></div>
+    <div class="widget v3d gap-top" id="hands">
+      <div class="row">
+        <button class="chip" data-k="wuji2" type="button">Wuji 2</button>
+        <button class="chip" data-k="sharpa" type="button">SharpA</button>
+        <button class="chip" data-k="xhand" type="button">XHand Pro</button>
+        <button class="chip" data-k="tesollo" type="button">Tesollo</button>
+        <button class="chip on" data-k="all" type="button">All four</button>
+      </div>
+      <div class="stage3d q4" data-still-d="assets/3d/still_hands_d.jpg" data-still-m="assets/3d/still_hands_m.jpg"><span class="ovl qlab" data-i="0">Wuji 2</span><span class="ovl qlab" data-i="1">SharpA</span><span class="ovl qlab" data-i="2">XHand Pro</span><span class="ovl qlab" data-i="3">Tesollo</span></div>
+      <div class="ctrl"><button class="pbtn" type="button">Pause</button><input type="range" min="0" max="259" value="0" aria-label="Frame"><button class="chip vfront" type="button">Front view</button><button class="chip vego" type="button">Ego view</button></div>
+      <p class="cap">The HO-Cap clip has the instruction “Pick up the hammer and pass it to the other hand.”</p>
+    </div>
   </div>
 
   <div class="block">
@@ -685,21 +705,6 @@ abbr { text-decoration: none; }
       <p class="cap">Each row shows the normal contact force on the links of one finger. The right hand is drawn in sky blue and the left hand in white, and a brighter cell means a stronger force.</p>
     </div>
   </div>
-  <details><summary>Table S3: contents of the data</summary><div class="in tw">
-    <table><tbody>
-    <tr><td>Clips</td><td>20,768 (5,048 to 5,361 per hand), 37 h</td></tr>
-    <tr><td>Trajectories</td><td>× ≈3 placements, ≈65,000, 116 h</td></tr>
-    <tr><td>Episodes</td><td>× 5 appearances, ≈325,000, 578 h</td></tr>
-    <tr><td>Ego RGB-D</td><td>stereo 1280×720 + left depth, 30 Hz</td></tr>
-    <tr><td>Exo RGB</td><td>1920×1920, 30 Hz</td></tr>
-    <tr><td>Joint states</td><td>head, arms, hands, 50 Hz</td></tr>
-    <tr><td>Actions</td><td>absolute joint PD targets, 50 Hz</td></tr>
-    <tr><td>Privileged</td><td>object poses, per-link contact forces, 50 Hz</td></tr>
-    <tr><td>Language</td><td>instruction and phase sub-instructions per clip</td></tr>
-    <tr><td>Length</td><td>5.7 s human, 6.3 s robot (mean)</td></tr>
-    <tr><td>Format</td><td>LeRobot v2.1</td></tr>
-    </tbody></table>
-  </div></details>
 </div></section>
 
 <section class="sec sec--l" id="experiments"><div class="container">
