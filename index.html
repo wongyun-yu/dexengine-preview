@@ -365,7 +365,6 @@ figure { margin: 0; }
 .scale .sc-box { position: relative; display: block; block-size: var(--H); border-bottom: var(--rule-hair) solid var(--color-rule-2); }
 .scale .sc-dot { position: absolute; bottom: 0; left: 50%; inline-size: calc(var(--s) * var(--H)); aspect-ratio: 1; translate: -50% 0; border-radius: 50%;
   background: color-mix(in oklch, var(--color-accent) var(--f, 0%), transparent); border: var(--rule-hair) solid color-mix(in oklch, var(--color-accent) 75%, transparent); transform-origin: 50% 100%; }
-.scale .sc-human .sc-dot { background: none; border-color: var(--color-muted); }
 .scale .sc-txt { display: grid; gap: var(--space-2xs); padding: var(--space-md) var(--space-md) 0 0; }
 .scale .sc-n { font-family: var(--font-display); font-weight: var(--display-weight); font-stretch: var(--display-stretch); font-size: var(--text-2xl); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .scale .sc-u { color: var(--color-ink); font-weight: 500; }
@@ -628,16 +627,6 @@ abbr { text-decoration: none; }
 <section class="sec" id="data"><div class="container">
   <div class="cols head"><h2 data-imp="ref">Dataset</h2><p class="lead">The four hands have about 5,200 clips each and 325,000 episodes in all.</p></div>
   <div class="block">
-    <div class="cols"><div class="c-l6"><h3>Dataset scale</h3><p class="note">Each robot clip is recorded at up to four placements, and each recording is rendered in five appearances. Circle areas follow the counts.</p></div></div>
-    <ol class="scale gap-top">
-      <li class="sc-human" style="--s: 0.219; --i: 0"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">15,555</span><span class="sc-u">Human clips</span><span class="sc-d">Nine datasets</span></span></li>
-      <li style="--s: 0.253; --i: 1; --f: 75%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">20,768</span><span class="sc-u">Robot clips</span><span class="sc-d">Four hands, 37&nbsp;h</span></span></li>
-      <li style="--s: 0.447; --i: 2; --f: 50%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">&asymp;65,000</span><span class="sc-u">Trajectories</span><span class="sc-d">Pose augmentation, up to four placements, 116&nbsp;h</span></span></li>
-      <li style="--s: 1; --i: 3; --f: 30%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">&asymp;325,000</span><span class="sc-u">Episodes</span><span class="sc-d">Visual augmentation, five appearances, 578&nbsp;h</span></span></li>
-    </ol>
-  </div>
-
-  <div class="block">
     <div class="cols"><div class="c-l4"><h3>Clips kept at each step</h3><p class="note">Apart from capture defects, most lost clips have no placement that the arms can follow from a fixed torso and base.</p></div>
     <div class="widget c-r7" id="funnel">
       <div class="row">
@@ -651,6 +640,16 @@ abbr { text-decoration: none; }
       <div class="fun-legend"></div>
       <p class="fun-total"></p>
     </div></div>
+  </div>
+
+  <div class="block">
+    <div class="cols"><div class="c-l6"><h3>Dataset scale</h3><p class="note">The accepted clips of the four hands are recorded at up to four placements, and each recording is rendered in five appearances. Circle areas follow the counts.</p></div></div>
+    <ol class="scale gap-top">
+      <li style="--s: 0.126; --i: 0; --f: 90%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">5,192</span><span class="sc-u">Clips per hand</span><span class="sc-d">Accepted, mean of four hands</span></span></li>
+      <li style="--s: 0.253; --i: 1; --f: 75%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">20,768</span><span class="sc-u">Robot clips</span><span class="sc-d">Four hands, 37&nbsp;h</span></span></li>
+      <li style="--s: 0.447; --i: 2; --f: 50%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">&asymp;65,000</span><span class="sc-u">Trajectories</span><span class="sc-d">Pose augmentation, up to four placements, 116&nbsp;h</span></span></li>
+      <li style="--s: 1; --i: 3; --f: 30%"><span class="sc-box"><span class="sc-dot"></span></span><span class="sc-txt"><span class="sc-n">&asymp;325,000</span><span class="sc-u">Episodes</span><span class="sc-d">Visual augmentation, five appearances, 578&nbsp;h</span></span></li>
+    </ol>
   </div>
 
   <div class="block">
