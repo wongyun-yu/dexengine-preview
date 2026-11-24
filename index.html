@@ -1724,8 +1724,14 @@ function wideOf(quad, back) {
   }
   // ---- cameras: each stage's own view, and one wide view for every change (whole robot, desks, both hands) ----------
   function headView(i) {
-    const c = i <= 1 ? C.j.camF : H.j.camH, t = c.target;      // the head camera, raised: both hands in view at every frame
-    return {target: t, eye: [c.eye[0] + 0.15 * (c.eye[0] - t[0]), c.eye[1], c.eye[2] + 0.55]};
+    // one ego view for all four stages: the robot's head camera, raised (both hands in view at every frame). Stages 1-2 stand at
+    // the base placement G0, so the same camera is carried back through the adopted placement G2 (a yaw and a shift) and the
+    // hands and objects keep the same place in the picture from stage to stage.
+    const c = H.j.camH, t = c.target, eye = [c.eye[0] + 0.15 * (c.eye[0] - t[0]), c.eye[1], c.eye[2] + 0.55];
+    if (i >= 2) return {target: t, eye};
+    const {G0, G2} = Gs(), c0 = new THREE.Vector3(...H.j.place.c), qi = G2.q.clone().invert();
+    const back = p => onG(G0, new THREE.Vector3(...p).sub(G2.cc).applyQuaternion(qi).add(c0).toArray());
+    return {target: back(t), eye: back(eye)};
   }
   function wide() {          // az -50 deg, el 32 deg (the video's placement camera), the nearest that keeps every point in a 4 % margin
     if (!widePts) {
