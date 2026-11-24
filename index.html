@@ -140,7 +140,7 @@ input[type=range]:disabled { cursor: not-allowed; accent-color: var(--color-rule
 .bar .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); min-height: 64px; }
 .bar .wordmark { display: block; text-decoration: none; }
 .bar .wordmark .wm { width: 132px; }
-@media (max-width: 40rem) { .bar ul { mask-image: linear-gradient(90deg, var(--color-ink) 85%, transparent); } }
+@media (max-width: 79.99rem) { .bar ul { mask-image: linear-gradient(90deg, var(--color-ink) 85%, transparent); } }   
 .bar ul { display: flex; gap: var(--space-xs); list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
 .bar ul a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--space-sm); color: var(--color-muted); font-size: var(--text-sm); font-weight: 500; text-decoration: none; white-space: nowrap; }
 .bar ul a:hover { color: var(--color-ink); }
@@ -513,11 +513,11 @@ abbr { text-decoration: none; }
 
 <nav class="bar" aria-label="Sections"><div class="container">
   <a class="wordmark" href="#top"><img class="wm" src="assets/brand/wordmark.png" width="1208" height="217" alt="DexEngine, back to the top"></a>
-  <ul><li><a href="#overview">Abstract</a></li><li><a href="#why">Limitations</a></li><li><a href="#method">Pipeline</a></li><li><a href="#data">Dataset</a></li><li><a href="#experiments">Comparison</a></li><li><a href="#finetune">Fine-tuning</a></li><li><a href="#gallery">More episodes</a></li><li><a href="#bibtex">Citation</a></li></ul>
+  <ul><li><a href="#overview">Abstract</a></li><li><a href="#why">Limitations of prior work</a></li><li><a href="#method">Pipeline</a></li><li><a href="#data">Dataset</a></li><li><a href="#experiments">Comparison</a></li><li><a href="#finetune">Fine-tuning</a></li><li><a href="#gallery">More episodes</a></li><li><a href="#bibtex">Citation</a></li></ul>
 </div></nav>
 
 <main>
-<section class="sec" id="why"><div class="container">
+<section class="sec" id="why" data-outline="flat"><div class="container">
   <div class="cols head"><h2 data-imp="ref">Limitations of retargeted data</h2><p class="lead">As training data for a whole robot, retargeted data have three limitations.</p></div>
   <div class="cols">
     <ol class="faults">
@@ -550,7 +550,7 @@ abbr { text-decoration: none; }
   </div></details>
 </div></section>
 
-<section class="sec" id="method"><div class="container">
+<section class="sec" id="method" data-outline="flat"><div class="container">
   <div class="cols head"><h2 data-imp="ref">Pipeline</h2><p class="lead">DexEngine satisfies the kinematic constraint before physics, and then reduces the object error in simulation.</p></div>
   <div class="widget v3d" id="pipe3d">
     <ol class="steps5" role="tablist" aria-label="Pipeline stages">
@@ -2352,7 +2352,7 @@ class EpView {
 <script>
 /* page outline: entries come from the bar (sections) and from each section's h3, so the headings stay the one source */
 (function () {
-  var bar = document.querySelector('.bar ul'), hero = document.querySelector('.hero');
+  var dock = document.querySelector('nav.bar'), bar = dock && dock.querySelector('ul');
   if (!bar) return;
   var items = [];
   Array.prototype.forEach.call(bar.querySelectorAll('a[href^="#"]'), function (a) {
@@ -2360,7 +2360,7 @@ class EpView {
     if (!el) return;
     var sec = el.closest('section') || el;
     items.push({lv: 1, label: a.textContent.trim(), href: '#' + id, el: sec, det: el.tagName === 'DETAILS' ? el : null});
-    if (sec.tagName !== 'SECTION') return;
+    if (sec.tagName !== 'SECTION' || sec.dataset.outline === 'flat') return;   // a short section lists no subsections (data-outline="flat")
     Array.prototype.forEach.call(sec.querySelectorAll('h3:not(.h2like)'), function (h) {
       if (h.closest('details:not([open]), [hidden], dialog, nav')) return;
       if (!h.id) {
@@ -2392,9 +2392,18 @@ class EpView {
     var a = items[cur].a, y = a.offsetTop, h = a.offsetHeight;
     fill.style.transform = 'scaleY(' + (y + h) + ')';
     mark.style.transform = 'translateY(' + y + 'px) scaleY(' + h + ')';
+    // on a short screen the list scrolls inside its own box: keep the current entry in view there (never scroll the page)
+    var box = getComputedStyle(nav).overflowY === 'auto' ? nav : pnl, ar = a.getBoundingClientRect(), br = box.getBoundingClientRect();
+    if (box.scrollHeight > box.clientHeight + 1) {
+      if (ar.top < br.top + 8) box.scrollTop -= br.top + 8 - ar.top;
+      else if (ar.bottom > br.bottom - 8) box.scrollTop += ar.bottom - br.bottom + 8;
+    }
   }
   function spy() {
     raf = 0;
+    // shown only once the bar has docked at the top: before that the bar crosses the screen and would cut through the list
+    var on = dock.getBoundingClientRect().top <= 1;
+    if (on !== nav.classList.contains('is-on')) { nav.classList.toggle('is-on', on); if (!on) close(); }
     var lim = Math.min(window.innerHeight * 0.3, 240), c = 0, de = document.documentElement;
     for (var i = 0; i < items.length; i++) if (items[i].el.getBoundingClientRect().top <= lim) c = i;
     if (window.innerHeight + window.scrollY >= de.scrollHeight - 4) c = items.length - 1;
@@ -2414,8 +2423,6 @@ class EpView {
   rail.addEventListener('click', function () { var o = !nav.classList.contains('is-open'); nav.classList.toggle('is-open', o); rail.setAttribute('aria-expanded', String(o)); });
   document.addEventListener('click', function (e) { if (!nav.contains(e.target)) close(); });
   nav.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); rail.focus(); } });
-  if (hero && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { nav.classList.toggle('is-on', !es[es.length - 1].isIntersecting); if (!nav.classList.contains('is-on')) close(); }).observe(hero);
-  else nav.classList.add('is-on');
   spy();
 })();
 </script>
